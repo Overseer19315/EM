@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#050607">
+<title>DIVI-64 // EXECUTIVE MANAGEMENT</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div id="app">
+
+  <!-- D-64 BOOT -->
+  <section id="bootScreen" class="screen">
+    <div class="bootBox">
+      <pre class="logo">
+██████╗       ██████╗ ██╗  ██╗██╗  ██╗
+██╔══██╗     ██╔════╝ ██║  ██║██║  ██║
+██║  ██║     ██║      ██║  ██║███████║
+██║  ██║     ██║      ██║  ██║██╔══██║
+██████╔╝     ╚██████╗ ╚██████╔╝██║  ██║
+╚═════╝       ╚═════╝  ╚═════╝ ╚═╝  ╚═╝
+      </pre>
+
+      <div class="bootTitle">DIVISION 64</div>
+      <div class="bootSubtitle">EXECUTIVE MANAGEMENT SYSTEM</div>
+
+      <div class="bootLine">
+        <span id="bootStatus">INITIALIZING MAINFRAME</span>
+        <span id="bootPercent">0%</span>
+      </div>
+
+      <div class="progress">
+        <div id="bootProgress"></div>
+      </div>
+
+      <div id="bootMessage">Establishing secure environment...</div>
+    </div>
+  </section>
+
+
+  <!-- LOGIN -->
+  <section id="loginScreen" class="screen hidden">
+    <div class="loginBox">
+
+      <div class="classification">DIVI-64 // CL-5 // OVERWATCH</div>
+
+      <h1>EXECUTIVE MANAGEMENT</h1>
+      <div class="separator"></div>
+
+      <p class="loginNotice">
+        RESTRICTED EXECUTIVE DATABASE
+      </p>
+
+      <form id="loginForm" autocomplete="off">
+
+        <label for="username">IDENTIFICATION</label>
+        <input
+          id="username"
+          type="text"
+          placeholder="ENTER IDENTIFICATION"
+          autocomplete="off"
+          spellcheck="false"
+          required
+        >
+
+        <label for="password">AUTHENTICATION KEY</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="ENTER AUTHENTICATION KEY"
+          autocomplete="off"
+          required
+        >
+
+        <button type="submit" id="loginButton">
+          [ AUTHENTICATE ]
+        </button>
+
+      </form>
+
+      <div id="loginMessage" class="loginMessage"></div>
+
+      <div class="loginFooter">
+        ALL EXECUTIVE RECORDS CLASSIFIED CL-5
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- SESSION SELECTION -->
+  <section id="sessionScreen" class="screen hidden">
+
+    <header class="mainHeader">
+      <div>
+        <span class="headerTitle">DIVI-64 / EXECUTIVE MANAGEMENT</span>
+        <span class="headerSub">CENTRAL EXECUTIVE DATABASE</span>
+      </div>
+
+      <div class="classification">
+        CL-5 // OVERWATCH
+      </div>
+    </header>
+
+    <main class="sessionMain">
+
+      <div class="sessionIntro">
+        <div class="terminalMark">D-64</div>
+
+        <h1>EXECUTIVE SESSION</h1>
+
+        <p>
+          AUTHENTICATED EXECUTIVE PERSONNEL DETECTED.
+          SELECT YOUR AUTHORIZED SESSION.
+        </p>
+      </div>
+
+      <div class="sessionGrid">
+
+        <button class="sessionButton" data-session="LJD">
+          <span class="sessionNumber">01</span>
+          <span class="sessionName">LJD</span>
+          <span class="sessionDescription">EXECUTIVE SESSION</span>
+        </button>
+
+        <button class="sessionButton" data-session="XO">
+          <span class="sessionNumber">02</span>
+          <span class="sessionName">XO</span>
+          <span class="sessionDescription">EXECUTIVE COMMAND</span>
+        </button>
+
+        <button class="sessionButton" data-session="CO">
+          <span class="sessionNumber">03</span>
+          <span class="sessionName">CO</span>
+          <span class="sessionDescription">COMMAND SESSION</span>
+        </button>
+
+        <button class="sessionButton supreme" data-session="COS">
+          <span class="sessionNumber">04</span>
+          <span class="sessionName">COS</span>
+          <span class="sessionDescription">SUPREME EXECUTIVE AUTHORITY</span>
+        </button>
+
+      </div>
+
+      <div class="sessionWarning">
+        UNAUTHORIZED ACCESS ATTEMPTS ARE LOGGED.
+      </div>
+
+    </main>
+  </section>
+
+
+  <!-- TERMINAL -->
+  <section id="terminalScreen" class="screen hidden">
+
+    <header class="terminalHeader">
+
+      <div class="brand">
+        <span class="brandLogo">D-64</span>
+        <div>
+          <div class="brandTitle">DIVI-64 // EXECUTIVE MANAGEMENT</div>
+          <div class="brandSub">CENTRAL MAINFRAME</div>
+        </div>
+      </div>
+
+      <div class="terminalInfo">
+        <div>
+          SESSION:
+          <strong id="currentSession">---</strong>
+        </div>
+
+        <div>
+          AUTHORITY:
+          <strong id="authorityLevel">---</strong>
+        </div>
+
+        <div>
+          STATUS:
+          <strong class="online">ONLINE</strong>
+        </div>
+      </div>
+
+    </header>
+
+
+    <main class="terminalMain">
+
+      <section class="welcomePanel">
+        <div class="panelLabel">
+          EXECUTIVE AUTHENTICATION
+        </div>
+
+        <pre id="welcomeText"></pre>
+      </section>
+
+
+      <section class="terminalWindow">
+
+        <div class="terminalBar">
+          <span>EXECUTIVE TERMINAL</span>
+          <span id="terminalClock">00:00:00</span>
+        </div>
+
+        <div id="terminalOutput" class="terminalOutput"></div>
+
+        <form id="commandForm" class="commandLine">
+          <span id="commandPrompt">D-64@EXEC:~$</span>
+
+          <input
+            id="commandInput"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Executive command"
+          >
+        </form>
+
+      </section>
+
+    </main>
+
+
+    <footer class="terminalFooter">
+
+      <span>
+        DIVI-64 // CONTROLLED ACCESS
+      </span>
+
+      <span>
+        CL-5 // OVERWATCH
+      </span>
+
+      <button id="logoutButton">
+        [ LOGOUT ]
+      </button>
+
+    </footer>
+
+  </section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+          </html>
