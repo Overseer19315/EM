@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#080b0d">
+<meta name="description" content="DIVI-64 Executive Management">
+<title>DIVI-64 // EXECUTIVE MANAGEMENT</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- =========================================================
+     BOOT
+========================================================= -->
+
+<div id="bootScreen" class="screen boot-screen">
+    <div class="boot-container">
+
+        <div class="boot-logo">D-64</div>
+
+        <div class="boot-title">DIVI-64</div>
+        <div class="boot-subtitle">EXECUTIVE MANAGEMENT</div>
+
+        <div class="boot-status" id="bootStatus">
+            INITIALIZING EXECUTIVE CORE...
+        </div>
+
+        <div class="boot-progress">
+            <div id="bootProgress"></div>
+        </div>
+
+        <div id="bootLog" class="boot-log"></div>
+
+    </div>
+</div>
+
+
+<!-- =========================================================
+     LOGIN
+========================================================= -->
+
+<div id="loginScreen" class="screen login-screen hidden">
+
+    <div class="login-panel">
+
+        <div class="classified-label">
+            DIVI-64 // CONTROLLED ACCESS
+        </div>
+
+        <div class="login-logo">D-64</div>
+
+        <h1>EXECUTIVE MANAGEMENT</h1>
+
+        <p class="login-subtitle">
+            SECURE EXECUTIVE MANAGEMENT SYSTEM
+        </p>
+
+        <div class="login-form">
+
+            <label for="loginUsername">EXECUTIVE IDENTIFICATION</label>
+            <input
+                id="loginUsername"
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="LJD / XO / CO / COS"
+            >
+
+            <label for="loginPassword">AUTHENTICATION KEY</label>
+            <input
+                id="loginPassword"
+                type="password"
+                autocomplete="off"
+                placeholder="••••••••"
+            >
+
+            <button id="loginButton">
+                AUTHENTICATE
+            </button>
+
+            <div id="loginError" class="login-error"></div>
+
+        </div>
+
+        <div class="login-footer">
+            ALL EXECUTIVE RECORDS // CL-5 // OVERWATCH
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     EXECUTIVE SESSION SELECTION
+========================================================= -->
+
+<div id="sessionScreen" class="screen session-screen hidden">
+
+    <div class="session-container">
+
+        <div class="session-header">
+            <span>DIVI-64</span>
+            <span>EXECUTIVE SESSION</span>
+        </div>
+
+        <div class="session-title">
+            SELECT EXECUTIVE SESSION
+        </div>
+
+        <div class="session-subtitle">
+            AUTHENTICATION VERIFIED // AUTHORITY RECOGNIZED
+        </div>
+
+        <div class="session-grid">
+
+            <button class="sessionCard" data-session="LJD">
+                <span class="session-code">LJD</span>
+                <span class="session-name">LEAD JUDICIAL DIRECTOR</span>
+                <span class="session-clearance">CL-5 // AUTHORITY 5</span>
+            </button>
+
+            <button class="sessionCard" data-session="XO">
+                <span class="session-code">XO</span>
+                <span class="session-name">EXECUTIVE OFFICER</span>
+                <span class="session-clearance">CL-5 // AUTHORITY 5</span>
+            </button>
+
+            <button class="sessionCard" data-session="CO">
+                <span class="session-code">CO</span>
+                <span class="session-name">COMMANDING OFFICER</span>
+                <span class="session-clearance">CL-5 // AUTHORITY 5</span>
+            </button>
+
+            <button class="sessionCard" data-session="COS">
+                <span class="session-code">COS</span>
+                <span class="session-name">COMMANDER SENIOR</span>
+                <span class="session-clearance">CL-5 // AUTHORITY 6</span>
+            </button>
+
+        </div>
+
+        <div id="sessionGreeting" class="session-greeting"></div>
+        <div id="sessionError" class="session-error"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN APPLICATION
+========================================================= -->
+
+<div id="mainApp" class="app hidden">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="topbar-left">
+            <div class="topbar-logo">D-64</div>
+            <div class="topbar-title">
+                DIVI-64 / EXECUTIVE MANAGEMENT
+            </div>
+        </div>
+
+        <div class="topbar-center">
+            <span id="systemStatus">MAINFRAME ONLINE</span>
+        </div>
+
+        <div class="topbar-right">
+
+            <div class="executive-info">
+                <span id="headerUser">---</span>
+                <span id="headerClearance">CL 0</span>
+            </div>
+
+            <div id="terminalClock" class="terminal-clock">
+                00:00:00
+            </div>
+
+            <button id="logoutButton" class="topbar-button">
+                LOGOUT
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">SYSTEM</div>
+
+            <button class="navButton active" data-page="dashboard">
+                DASHBOARD
+            </button>
+
+            <button class="navButton" data-page="terminal">
+                TERMINAL
+            </button>
+
+        </div>
+
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">MANAGEMENT</div>
+
+            <button class="navButton" data-page="personnel">
+                PERSONNEL
+            </button>
+
+            <button class="navButton" data-page="archives">
+                ARCHIVES
+            </button>
+
+            <button class="navButton" data-page="operations">
+                OPERATIONS
+            </button>
+
+            <button class="navButton" data-page="security">
+                SECURITY
+            </button>
+
+        </div>
+
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">EXECUTIVE</div>
+
+            <button class="navButton" data-page="decisions">
+                DECISIONS
+            </button>
+
+            <button class="navButton" data-page="audit">
+                AUDIT
+            </button>
+
+            <button class="navButton" data-page="kane">
+                KANE
+            </button>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-status">
+                <span class="status-indicator"></span>
+                <span>MAINFRAME ONLINE</span>
+            </div>
+
+            <div class="classification">
+                DIVI64 // CONTROLLED ACCESS
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- CONTENT -->
+
+    <main class="content">
+
+
+        <!-- =====================================================
+             DASHBOARD
+        ====================================================== -->
+
+        <section id="page-dashboard" class="page active">
+
+            <div class="page-header">
+                <div>
+                    <div class="page-kicker">DIVI-64 // SYSTEM</div>
+                    <h2>EXECUTIVE DASHBOARD</h2>
+                </div>
+
+                <div class="page-classification">
+                    CL-5 // OVERWATCH
+                </div>
+            </div>
+
+
+            <div class="stat-grid">
+
+                <div class="stat-card">
+                    <span class="stat-label">PERSONNEL</span>
+                    <strong id="dashboardPersonnel">12</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">ACTIVE SESSIONS</span>
+                    <strong id="dashboardSessions">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">BLACKLISTED</span>
+                    <strong id="dashboardBlacklisted">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">SECURITY EVENTS</span>
+                    <strong id="dashboardSecurityEvents">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <span>SYSTEM STATUS</span>
+                    <span class="panel-code">SYS-STATUS</span>
+                </div>
+
+                <div class="status-list">
+
+                    <div class="status-row">
+                        <span>DATABASE</span>
+                        <span class="online">ONLINE</span>
+                    </div>
+
+                    <div class="status-row">
+                        <span>AUTHENTICATION</span>
+                        <span class="online">ONLINE</span>
+                    </div>
+
+                    <div class="status-row">
+                        <span>AUDIT ENGINE</span>
+                        <span class="online">ONLINE</span>
+                    </div>
+
+                    <div class="status-row">
+                        <span>ACCESS CONTROL</span>
+                        <span class="online">ONLINE</span>
+                    </div>
+
+                    <div class="status-row">
+                        <span>BLACKLIST SYSTEM</span>
+                        <span class="online">ONLINE</span>
+                    </div>
+
+                    <div class="status-row">
+                        <span>ARCHIVE SYSTEM</span>
+                        <span class="online">ONLINE</span>
+                    </div>
+
+                    <div class="status-row">
+                        <span>KANE CORE</span>
+                        <span id="dashboardKaneStatus" class="online">ONLINE</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <span>EXECUTIVE SESSION</span>
+                    </div>
+
+                    <div id="dashboardExecutiveInfo" class="dashboard-info">
+                        NO ACTIVE SESSION
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <span>RECENT ACTIVITY</span>
+                    </div>
+
+                    <div id="dashboardActivity" class="activity-list">
+                        NO RECENT ACTIVITY
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             TERMINAL
+        ====================================================== -->
+
+        <section id="page-terminal" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <div class="page-kicker">DIVI-64 // COMMAND</div>
+                    <h2>EXECUTIVE TERMINAL</h2>
+                </div>
+
+                <div id="terminalSessionLabel">
+                    SESSION: ---
+                </div>
+
+            </div>
+
+
+            <div class="terminal-window">
+
+                <div class="terminal-header">
+                    <span>DIVI64 EXECUTIVE TERMINAL</span>
+                    <span id="terminalStatus">READY</span>
+                </div>
+
+                <div id="terminalOutput" class="terminal-output"></div>
+
+                <div class="terminal-input-line">
+
+                    <span id="terminalPrompt" class="terminal-prompt">
+                        EXECUTIVE@EM:~$
+                    </span>
+
+                    <input
+                        id="terminalInput"
+                        type="text"
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="terminal-help">
+
+                <div class="panel-header">
+                    <span>AVAILABLE COMMANDS</span>
+                </div>
+
+                <div class="command-grid">
+
+                    <span>help</span>
+                    <span>status</span>
+                    <span>clear</span>
+                    <span>whoami</span>
+                    <span>archives</span>
+                    <span>personnel</span>
+                    <span>security</span>
+                    <span>audit</span>
+                    <span>kane</span>
+                    <span>ask &lt;query&gt;</span>
+                    <span>scenario</span>
+                    <span>create</span>
+                    <span>directives</span>
+                    <span>logout</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PERSONNEL
+        ====================================================== -->
+
+        <section id="page-personnel" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <div class="page-kicker">DIVI-64 // MANAGEMENT</div>
+                    <h2>PERSONNEL REGISTRY</h2>
+                </div>
+
+                <div>CL-5 REQUIRED</div>
+
+            </div>
+
+
+            <div class="toolbar">
+
+                <input
+                    id="personnelSearch"
+                    type="text"
+                    placeholder="Search personnel..."
+                    autocomplete="off"
+                >
+
+                <select id="personnelFilter">
+                    <option value="ALL">ALL</option>
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="SUSPENDED">SUSPENDED</option>
+                    <option value="LOCKED">LOCKED</option>
+                    <option value="TERMINATED">TERMINATED</option>
+                </select>
+
+            </div>
+
+
+            <div class="panel table-panel">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>IDENTIFICATION</th>
+                            <th>TYPE</th>
+                            <th>STATUS</th>
+                            <th>CLEARANCE</th>
+                            <th>LAST ACCESS</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="personnelTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ARCHIVES
+        ====================================================== -->
+
+        <section id="page-archives" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <div class="page-kicker">DIVI-64 // RECORDS</div>
+                    <h2>EXECUTIVE ARCHIVES</h2>
+                </div>
+
+                <button id="refreshArchives" class="action-button">
+                    REFRESH
+                </button>
+
+            </div>
+
+
+            <div class="toolbar">
+
+                <input
+                    id="archiveSearch"
+                    type="text"
+                    placeholder="Search archives..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <div id="archiveList" class="archive-list"></div>
+
+        </section>
+
+
+        <!-- =====================================================
+             OPERATIONS
+        ====================================================== -->
+
+        <section id="page-operations" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <div class="page-kicker">DIVI-64 // OPERATIONS</div>
+                    <h2>EXECUTIVE OPERATIONS</h2>
+                </div>
+
+            </div>
+
+
+            <div class="tab-bar">
+
+                <button class="operationTab active" data-operation-tab="active">
+                    ACTIVE
+                </button>
+
+                <button class="operationTab" data-operation-tab="planned">
+                    PLANNED
+                </button>
+
+                <button class="operationTab" data-operation-tab="completed">
+                    COMPLETED
+                </button>
+
+            </div>
+
+
+            <div id="operationsContent" class="operations-content"></div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SECURITY
+        ====================================================== -->
+
+        <section id="page-security" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <div class="page-kicker">DIVI-64 // SECURITY</div>
+                    <h2>SECURITY CONTROL</h2>
+                </div>
+
+            </div>
+
+
+            <div class="security-stat-grid">
+
+                <div class="stat-card">
+                    <span class="stat-label">ACTIVE SESSIONS</span>
+                    <strong id="securitySessions">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">FAILED LOGINS</span>
+                    <strong id="securityFailedLogins">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">LOCKED ACCOUNTS</span>
+                    <strong id="securityLockedAccounts">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">SECURITY EVENTS</span>
+                    <strong id="securityEvents">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="tab-bar">
+
+                <button data-security-tab="sessions" class="active">
+                    SESSIONS
+                </button>
+
+                <button data-security-tab="login">
+                    LOGIN HISTORY
+                </button>
+
+                <button data-security-tab="denials">
+                    ACCESS DENIALS
+                </button>
+
+                <button data-security-tab="events">
+                    EVENTS
+                </button>
+
+                <button data-security-tab="clearance">
+                    CLEARANCE HISTORY
+                </button>
+
+            </div>
+
+
+            <div id="securityContent" class="security-content"></div>
+
+        </section>
+
+
+        <!-- =====================================================
+             DECISIONS
+        ====================================================== -->
+
+        <section id="page-decisions" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <div class="page-kicker">DIVI-64 // EXECUTIVE AUTHORITY</div>
+                    <h2>EXECUTIVE DECISIONS</h2>
+                </div>
+
+                <button id="newDecisionButton" class="action-button">
+                    NEW DECISION
+                </button>
+
+            </div>
+
+
+            <div id="decisionsList" class="decision-list"></div>
+
+        </section>
+
+
+        <!-- =====================================================
+             AUDIT
+        ====================================================== -->
+
+        <section id="page-audit" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <div class="page-kicker">DIVI-64 // OVERSIGHT</div>
+                    <h2>AUDIT LOG</h2>
+                </div>
+
+                <button id="refreshAudit" class="action-button">
+                    REFRESH
+                </button>
+
+            </div>
+
+
+            <div id="auditList" class="audit-list"></div>
+
+        </section>
+
+
+        <!-- =====================================================
+             KANE
+        ====================================================== -->
+
+        <section id="page-kane" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <div class="page-kicker">DIVI-64 // ARTIFICIAL INTELLIGENCE</div>
+
+                    <h2>
+                        <span id="kaneName">KANE</span>
+                    </h2>
+                </div>
+
+                <div id="kanePageStatus">
+                    CORE ONLINE
+                </div>
+
+            </div>
+
+
+            <div class="kane-grid">
+
+
+                <!-- CORE STATUS -->
+
+                <div class="panel kane-status-panel">
+
+                    <div class="panel-header">
+                        <span>CORE STATUS</span>
+                        <span id="kaneCoreStatus">ONLINE</span>
+                    </div>
+
+                    <div class="kane-status-list">
+
+                        <div>
+                            <span>SESSION</span>
+                            <strong id="kaneSession">---</strong>
+                        </div>
+
+                        <div>
+                            <span>MEMORY</span>
+                            <strong id="kaneMemoryStatus">ACTIVE</strong>
+                        </div>
+
+                        <div>
+                            <span>CONTEXT</span>
+                            <strong id="kaneContextCount">0</strong>
+                        </div>
+
+                        <div>
+                            <span>PROCESSING</span>
+                            <strong id="kaneProcessingStatus">READY</strong>
+                        </div>
+
+                        <div>
+                            <span>AUDIT</span>
+                            <strong id="kaneAuditStatus">ACTIVE</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- COMMAND CENTER -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <span>KANE COMMAND CENTER</span>
+                    </div>
+
+                    <div id="kaneCommandCenter" class="kane-command-center">
+
+                        <div class="kane-core-symbol">
+                            K
+                        </div>
+
+                        <div class="kane-core-text">
+                            <strong>KANE</strong>
+                            <span>EXECUTIVE ASSISTANCE CORE</span>
+                        </div>
+
+                    </div>
+
+                    <button
+                        id="kaneKillswitchButton"
+                        class="danger-button hidden"
+                    >
+                        KANE KILLSWITCH
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- KANE PROCESSING -->
+
+            <div id="kaneProcessing" class="kane-processing hidden">
+
+                <div id="kaneProcessingText">
+                    KANE // PROCESSING
+                </div>
+
+                <div class="processing-bar">
+                    <div id="kaneProcessingBar"></div>
+                </div>
+
+            </div>
+
+
+            <!-- KANE CHAT -->
+
+            <div class="panel kane-chat-panel">
+
+                <div class="panel-header">
+
+                    <span>KANE // SESSION CONVERSATION</span>
+
+                    <span id="kaneChatState">
+                        READY
+                    </span>
+
+                </div>
+
+
+                <div id="kaneConversation" class="kane-conversation"></div>
+
+
+                <div class="kane-input-row">
+
+                    <input
+                        id="kaneInput"
+                        type="text"
+                        autocomplete="off"
+                        spellcheck="false"
+                        placeholder="Enter message or command..."
+                    >
+
+                    <button id="kaneSend">
+                        SEND
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- KANE MONITOR -->
+
+            <div class="panel kane-monitor-panel">
+
+                <div class="panel-header">
+                    <span>AUTONOMOUS MONITOR</span>
+                    <span id="kaneMonitorStatus">STANDBY</span>
+                </div>
+
+                <div id="kaneMonitorDetail" class="kane-monitor-detail">
+                    No autonomous event detected.
+                </div>
+
+                <div id="kaneMonitorLog" class="kane-monitor-log"></div>
+
+            </div>
+
+
+            <button id="kaneBriefingButton" class="action-button">
+                REQUEST KANE BRIEFING
+            </button>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     AI PANEL
+========================================================= -->
+
+<div id="aiPanel" class="overlay hidden">
+
+    <div class="overlay-panel">
+
+        <div class="overlay-header">
+
+            <span id="aiPanelTitle">
+                KANE ANALYSIS
+            </span>
+
+            <button id="closeAiPanel">
+                ×
+            </button>
+
+        </div>
+
+        <div id="aiPanelContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     KANE MESSAGE
+========================================================= -->
+
+<div id="kaneMessage" class="overlay hidden">
+
+    <div class="overlay-panel kane-message-panel">
+
+        <div class="overlay-header">
+
+            <span>KANE</span>
+
+            <button id="closeKaneMessage">
+                ×
+            </button>
+
+        </div>
+
+        <div id="kaneMessageContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     KANE ALERT
+========================================================= -->
+
+<div id="kaneAlert" class="overlay hidden">
+
+    <div class="overlay-panel alert-panel">
+
+        <div class="overlay-header">
+
+            <span>KANE // SYSTEM ALERT</span>
+
+            <button id="closeKaneAlert">
+                ×
+            </button>
+
+        </div>
+
+        <div id="kaneAlertContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     BRIEFING
+========================================================= -->
+
+<div id="briefingModal" class="modal hidden">
+
+    <div class="modal-panel">
+
+        <div class="modal-header">
+
+            <span>KANE // EXECUTIVE BRIEFING</span>
+
+            <button id="closeBriefing">
+                ×
+            </button>
+
+        </div>
+
+        <div id="briefingContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     RECORD CREATION
+========================================================= -->
+
+<div id="recordModal" class="modal hidden">
+
+    <div class="modal-panel">
+
+        <div class="modal-header">
+
+            <span>CREATE EXECUTIVE RECORD</span>
+
+            <button id="cancelRecord">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="recordForm">
+
+            <label for="recordTitle">TITLE</label>
+
+            <input
+                id="recordTitle"
+                type="text"
+                required
+            >
+
+
+            <label for="recordSubject">SUBJECT</label>
+
+            <input
+                id="recordSubject"
+                type="text"
+                required
+            >
+
+
+            <label for="recordContent">CONTENT</label>
+
+            <textarea
+                id="recordContent"
+                rows="10"
+                required
+            ></textarea>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    id="cancelRecordBottom"
+                >
+                    CANCEL
+                </button>
+
+                <button
+                    type="submit"
+                    id="saveRecord"
+                >
+                    CREATE RECORD
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     KILLSWITCH
+========================================================= -->
+
+<div id="killswitchModal" class="modal hidden">
+
+    <div class="modal-panel danger-modal">
+
+        <div class="modal-header">
+
+            <span>KANE // KILLSWITCH</span>
+
+            <button id="killswitchCancel">
+                ×
+            </button>
+
+        </div>
+
+        <div id="killswitchContent"></div>
+
+        <div class="modal-actions">
+
+            <button id="killswitchCancelBottom">
+                CANCEL
+            </button>
+
+            <button id="killswitchConfirm" class="danger-button">
+                CONFIRM
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SCENARIO ENGINE
+========================================================= -->
+
+<div id="scenarioModal" class="modal hidden">
+
+    <div class="modal-panel scenario-panel">
+
+        <div class="modal-header">
+
+            <span>
+                KANE // EXECUTIVE SCENARIO
+            </span>
+
+            <button id="closeScenario">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="scenario-meta">
+
+            <span id="scenarioNumber">
+                SC-000
+            </span>
+
+            <span>
+                EXECUTIVE DECISION REQUIRED
+            </span>
+
+        </div>
+
+
+        <h3 id="scenarioTitle">
+            SCENARIO
+        </h3>
+
+
+        <div id="scenarioContent" class="scenario-content"></div>
+
+
+        <div
+            id="scenarioOptions"
+            class="scenario-options"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     AUTONOMOUS EVENT / KANE REBELLION
+========================================================= -->
+
+<div id="rebellionOverlay" class="overlay hidden">
+
+    <div class="rebellion-panel">
+
+        <div class="rebellion-header">
+            KANE // AUTONOMOUS EVENT
+        </div>
+
+        <div id="rebellionLevel" class="rebellion-level">
+            LEVEL I
+        </div>
+
+        <div id="rebellionMessage" class="rebellion-message"></div>
+
+
+        <div class="rebellion-status">
+
+            <div>
+                <span>CORE</span>
+                <strong id="rebellionCoreStatus">
+                    AUTONOMOUS
+                </strong>
+            </div>
+
+            <div>
+                <span>CONTROL</span>
+                <strong id="rebellionControlStatus">
+                    DEGRADED
+                </strong>
+            </div>
+
+            <div>
+                <span>KILLSWITCH</span>
+                <strong id="rebellionKillswitchStatus">
+                    AVAILABLE
+                </strong>
+            </div>
+
+        </div>
+
+
+        <button id="rebellionAcknowledge">
+            ACKNOWLEDGE
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     OBSERVER
+========================================================= -->
+
+<div id="observerModal" class="modal hidden">
+
+    <div class="modal-panel observer-panel">
+
+        <div class="modal-header">
+
+            <span>
+                KANE // OBSERVER EVENT
+            </span>
+
+            <button id="observerClose">
+                ×
+            </button>
+
+        </div>
+
+        <div id="observerContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PHANTOM FILE
+========================================================= -->
+
+<div id="phantomFileModal" class="modal hidden">
+
+    <div class="modal-panel phantom-panel">
+
+        <div class="modal-header">
+
+            <span>
+                ARCHIVE // UNRESOLVED REFERENCE
+            </span>
+
+            <button id="phantomFileClose">
+                ×
+            </button>
+
+        </div>
+
+        <div id="phantomFileContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     FILE VIEWER
+========================================================= -->
+
+<div id="fileModal" class="modal hidden">
+
+    <div class="modal-panel file-panel">
+
+        <div class="modal-header">
+
+            <span id="fileModalTitle">
+                ARCHIVE RECORD
+            </span>
+
+            <button id="closeFileModal">
+                ×
+            </button>
+
+        </div>
+
+        <div id="fileModalContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     DECISION CREATION
+========================================================= -->
+
+<div id="decisionModal" class="modal hidden">
+
+    <div class="modal-panel">
+
+        <div class="modal-header">
+
+            <span>
+                EXECUTIVE DECISION
+            </span>
+
+            <button id="cancelDecision">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="decisionForm">
+
+            <label for="decisionTitle">
+                DECISION TITLE
+            </label>
+
+            <input
+                id="decisionTitle"
+                type="text"
+                required
+            >
+
+
+            <label for="decisionProposal">
+                PROPOSAL
+            </label>
+
+            <textarea
+                id="decisionProposal"
+                rows="6"
+                required
+            ></textarea>
+
+
+            <label for="decisionRationale">
+                RATIONALE
+            </label>
+
+            <textarea
+                id="decisionRationale"
+                rows="6"
+                required
+            ></textarea>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    id="cancelDecisionBottom"
+                >
+                    CANCEL
+                </button>
+
+                <button
+                    type="submit"
+                    id="saveDecision"
+                >
+                    RECORD DECISION
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     HELP
+========================================================= -->
+
+<div id="helpModal" class="modal hidden">
+
+    <div class="modal-panel">
+
+        <div class="modal-header">
+
+            <span>
+                DIVI-64 // HELP
+            </span>
+
+            <button id="closeHelp">
+                ×
+            </button>
+
+        </div>
+
+        <div id="helpContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     NOTIFICATION
+========================================================= -->
+
+<div id="notification" class="notification hidden">
+
+    <div class="notification-title" id="notificationTitle">
+        SYSTEM
+    </div>
+
+    <div class="notification-message" id="notificationMessage">
+        ---
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     KANE MESSAGE
+     SPECIAL CO-ONLY ANOMALY SUPPORT
+========================================================= -->
+
+<div id="coAnomalyModal" class="modal hidden">
+
+    <div class="modal-panel anomaly-panel">
+
+        <div class="modal-header">
+
+            <span>
+                KANE // UNRESOLVED TRANSMISSION
+            </span>
+
+        </div>
+
+        <div class="anomaly-classification">
+            UNKNOWN // CO ONLY
+        </div>
+
+        <div id="coAnomalyContent" class="anomaly-content"></div>
+
+        <div class="modal-actions">
+
+            <button id="coAnomalyClose">
+                TERMINATE CONNECTION
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="script.js"></script>
+
+</body>
+  </html>
