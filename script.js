@@ -594,29 +594,21 @@ function boot() {
     const status = $("bootStatus");
     const log = $("bootLog");
 
+    console.log("DIVI-64: BOOT STARTED");
+
     if (!bootScreen) {
-        console.error(
-            "DIVI-64 BOOT ERROR: bootScreen not found."
-        );
+        console.error("DIVI-64 BOOT ERROR: bootScreen not found.");
         return;
     }
 
     const steps = [
-
         "INITIALIZING EXECUTIVE CORE...",
-
         "LOADING AUTHORITY MATRIX...",
-
         "VERIFYING ARCHIVE ENGINE...",
-
         "INITIALIZING AUDIT ENGINE...",
-
         "LOADING KANE CORE...",
-
         "VERIFYING EXECUTIVE LINK...",
-
         "MAINFRAME READY."
-
     ];
 
     let index = 0;
@@ -625,20 +617,29 @@ function boot() {
         progress.style.width = "0%";
     }
 
-    if (status) {
-        status.textContent =
-            "INITIALIZING EXECUTIVE CORE...";
-    }
-
     if (log) {
         log.innerHTML = "";
     }
 
-    const timer = setInterval(() => {
+    function nextBootStep() {
+
+        console.log(
+            "DIVI-64 BOOT STEP:",
+            index + 1,
+            steps[index]
+        );
 
         if (index >= steps.length) {
 
-            clearInterval(timer);
+            console.log("DIVI-64: BOOT COMPLETE");
+
+            if (progress) {
+                progress.style.width = "100%";
+            }
+
+            if (status) {
+                status.textContent = "MAINFRAME READY.";
+            }
 
             setTimeout(() => {
 
@@ -652,7 +653,7 @@ function boot() {
                     loginScreen.classList.add("active");
                 }
 
-            }, 500);
+            }, 700);
 
             return;
         }
@@ -665,11 +666,14 @@ function boot() {
 
         if (log) {
 
-            log.innerHTML +=
-                `<div>[${String(index + 1).padStart(2, "0")}] ${escapeHTML(value)}</div>`;
+            const entry = document.createElement("div");
 
-            log.scrollTop =
-                log.scrollHeight;
+            entry.textContent =
+                `[${String(index + 1).padStart(2, "0")}] ${value}`;
+
+            log.appendChild(entry);
+
+            log.scrollTop = log.scrollHeight;
         }
 
         if (progress) {
@@ -682,7 +686,10 @@ function boot() {
 
         index++;
 
-    }, 350);
+        setTimeout(nextBootStep, 350);
+    }
+
+    nextBootStep();
 }
 
 
