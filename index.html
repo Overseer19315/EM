@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#050505">
+<title>DIVI-64 // EXECUTIVE MANAGEMENT</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- =========================================================
+     BOOT
+========================================================= -->
+
+<div id="bootScreen" class="screen active">
+    <div class="bootBox">
+        <pre class="bootLogo">
+██████╗       ██████╗ ██╗  ██╗
+██╔══██╗     ██╔════╝ ██║  ██║
+██║  ██║     ██║      ███████║
+██║  ██║     ██║      ██╔══██║
+██████╔╝     ╚██████╗ ██║  ██║
+╚═════╝       ╚═════╝ ╚═╝  ╚═╝
+        </pre>
+
+        <div class="bootTitle">DIVI-64 // EXECUTIVE MANAGEMENT</div>
+        <div id="bootStatus">INITIALIZING EXECUTIVE CORE...</div>
+
+        <div class="progressBar">
+            <div id="bootProgress" class="progressFill"></div>
+        </div>
+
+        <div id="bootLog" class="bootLog"></div>
+    </div>
+</div>
+
+
+<!-- =========================================================
+     LOGIN
+========================================================= -->
+
+<div id="loginScreen" class="screen hidden">
+    <div class="loginPanel">
+
+        <div class="classification">DIVI-64 // CONTROLLED ACCESS</div>
+
+        <h1>EXECUTIVE MANAGEMENT</h1>
+        <div class="loginSubtitle">
+            SECURE EXECUTIVE MANAGEMENT SYSTEM
+        </div>
+
+        <div class="loginSeparator"></div>
+
+        <label>EXECUTIVE IDENTIFICATION</label>
+        <input id="loginUsername"
+               type="text"
+               autocomplete="off"
+               placeholder="EXECUTIVE ID">
+
+        <label>AUTHENTICATION KEY</label>
+        <input id="loginPassword"
+               type="password"
+               autocomplete="off"
+               placeholder="AUTHENTICATION KEY">
+
+        <button id="loginButton">AUTHENTICATE</button>
+
+        <div id="loginError" class="loginError"></div>
+
+        <div class="loginFooter">
+            CLEARANCE LEVEL: CL-5 // OVERWATCH
+        </div>
+    </div>
+</div>
+
+
+<!-- =========================================================
+     SESSION SELECTOR
+========================================================= -->
+
+<div id="sessionScreen" class="screen hidden">
+    <div class="sessionPanel">
+
+        <div class="classification">DIVI-64 // EXECUTIVE NETWORK</div>
+
+        <h1>EXECUTIVE SESSION</h1>
+        <p id="sessionGreeting"></p>
+
+        <div class="sessionCards">
+
+            <button class="sessionCard" data-session="LJD">
+                <span>LJD</span>
+                <small>LEAD JUDICIAL DIRECTOR</small>
+                <strong>CL-5 // OVERWATCH</strong>
+            </button>
+
+            <button class="sessionCard" data-session="XO">
+                <span>XO</span>
+                <small>EXECUTIVE OFFICER</small>
+                <strong>CL-5 // OVERWATCH</strong>
+            </button>
+
+            <button class="sessionCard" data-session="CO">
+                <span>CO</span>
+                <small>COMMANDING OFFICER</small>
+                <strong>CL-5 // OVERWATCH</strong>
+            </button>
+
+            <button class="sessionCard" data-session="COS">
+                <span>COS</span>
+                <small>COMMANDER SENIOR</small>
+                <strong>CL-5 // OVERWATCH+</strong>
+            </button>
+
+        </div>
+
+        <div id="sessionError"></div>
+    </div>
+</div>
+
+
+<!-- =========================================================
+     MAIN APPLICATION
+========================================================= -->
+
+<div id="mainApp" class="app hidden">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="topbarLeft">
+            <div class="brand">
+                DIVI64 / CENTRAL MAINFRAME
+            </div>
+
+            <div id="systemStatus" class="systemStatus">
+                MAINFRAME ONLINE
+            </div>
+        </div>
+
+        <div class="topbarCenter">
+            <div id="terminalClock">00:00:00</div>
+        </div>
+
+        <div class="topbarRight">
+            <div>
+                <span class="label">EXECUTIVE</span>
+                <strong id="headerUser">---</strong>
+            </div>
+
+            <div>
+                <span class="label">CLEARANCE</span>
+                <strong id="headerClearance">CL 0</strong>
+            </div>
+
+            <button id="logoutButton">LOGOUT</button>
+        </div>
+
+    </header>
+
+
+    <!-- BODY -->
+
+    <div class="mainLayout">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebarHeader">
+                EXECUTIVE CONTROL
+            </div>
+
+            <button class="navButton active" data-page="dashboard">
+                DASHBOARD
+            </button>
+
+            <button class="navButton" data-page="terminal">
+                TERMINAL
+            </button>
+
+            <button class="navButton" data-page="personnel">
+                PERSONNEL
+            </button>
+
+            <button class="navButton" data-page="archives">
+                ARCHIVES
+            </button>
+
+            <button class="navButton" data-page="operations">
+                OPERATIONS
+            </button>
+
+            <button class="navButton" data-page="security">
+                SECURITY
+            </button>
+
+            <button class="navButton" data-page="decisions">
+                DECISIONS
+            </button>
+
+            <button class="navButton" data-page="audit">
+                AUDIT
+            </button>
+
+            <button class="navButton" data-page="kane">
+                KANE CORE
+            </button>
+
+            <div class="sidebarSpacer"></div>
+
+            <div class="sidebarStatus">
+                <span>MAINFRAME</span>
+                <strong>ONLINE</strong>
+            </div>
+
+            <div class="sidebarClassification">
+                DIVI64 // CONTROLLED ACCESS
+            </div>
+
+        </aside>
+
+
+        <!-- CONTENT -->
+
+        <main class="contentArea">
+
+
+            <!-- =================================================
+                 DASHBOARD
+            ================================================== -->
+
+            <section id="dashboardPage" class="page active">
+
+                <div class="pageHeader">
+                    <div>
+                        <span class="eyebrow">DIVI-64</span>
+                        <h2>EXECUTIVE DASHBOARD</h2>
+                    </div>
+
+                    <div class="pageHeaderStatus">
+                        SYSTEM STATUS
+                    </div>
+                </div>
+
+                <div class="statGrid">
+
+                    <div class="statCard">
+                        <span>PERSONNEL</span>
+                        <strong id="statPersonnel">12</strong>
+                    </div>
+
+                    <div class="statCard">
+                        <span>ACTIVE SESSIONS</span>
+                        <strong id="statSessions">0</strong>
+                    </div>
+
+                    <div class="statCard">
+                        <span>BLACKLISTED</span>
+                        <strong id="statBlacklisted">0</strong>
+                    </div>
+
+                    <div class="statCard">
+                        <span>SECURITY EVENTS</span>
+                        <strong id="statSecurityEvents">0</strong>
+                    </div>
+
+                </div>
+
+                <div class="dashboardGrid">
+
+                    <div class="panel">
+                        <div class="panelTitle">SYSTEM STATUS</div>
+
+                        <div class="statusRows">
+
+                            <div>
+                                <span>DATABASE</span>
+                                <strong id="dbStatus">ONLINE</strong>
+                            </div>
+
+                            <div>
+                                <span>AUTHENTICATION</span>
+                                <strong id="authStatus">ONLINE</strong>
+                            </div>
+
+                            <div>
+                                <span>AUDIT ENGINE</span>
+                                <strong id="auditEngineStatus">ACTIVE</strong>
+                            </div>
+
+                            <div>
+                                <span>ACCESS CONTROL</span>
+                                <strong id="accessControlStatus">ACTIVE</strong>
+                            </div>
+
+                            <div>
+                                <span>BLACKLIST SYSTEM</span>
+                                <strong id="blacklistStatus">READY</strong>
+                            </div>
+
+                            <div>
+                                <span>ARCHIVE SYSTEM</span>
+                                <strong id="archiveStatus">ONLINE</strong>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="panel">
+                        <div class="panelTitle">KANE CORE</div>
+
+                        <div id="dashboardKaneStatus">
+                            KANE // ONLINE
+                        </div>
+
+                        <div id="dashboardKaneDetail">
+                            EXECUTIVE CORE OPERATIONAL
+                        </div>
+
+                        <button id="kaneBriefingButton">
+                            EXECUTIVE BRIEFING
+                        </button>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 TERMINAL
+            ================================================== -->
+
+            <section id="terminalPage" class="page">
+
+                <div class="pageHeader">
+                    <div>
+                        <span class="eyebrow">COMMAND INTERFACE</span>
+                        <h2>EXECUTIVE TERMINAL</h2>
+                    </div>
+                </div>
+
+                <div class="terminalWindow">
+
+                    <div class="terminalHeader">
+                        <span>DIVI64 // EXECUTIVE SHELL</span>
+                        <span id="terminalSessionLabel">---</span>
+                    </div>
+
+                    <div id="terminalOutput"
+                         class="terminalOutput"></div>
+
+                    <div class="terminalInputLine">
+
+                        <span id="terminalPrompt">
+                            EXECUTIVE@EM:~$
+                        </span>
+
+                        <input id="terminalInput"
+                               type="text"
+                               autocomplete="off"
+                               spellcheck="false">
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PERSONNEL
+            ================================================== -->
+
+            <section id="personnelPage" class="page">
+
+                <div class="pageHeader">
+                    <div>
+                        <span class="eyebrow">PERSONNEL CONTROL</span>
+                        <h2>EXECUTIVE PERSONNEL</h2>
+                    </div>
+                </div>
+
+                <div class="toolbar">
+
+                    <input id="personnelSearch"
+                           placeholder="SEARCH PERSONNEL...">
+
+                    <select id="personnelFilter">
+                        <option value="ALL">ALL</option>
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="SUSPENDED">SUSPENDED</option>
+                        <option value="LOCKED">LOCKED</option>
+                        <option value="TERMINATED">TERMINATED</option>
+                    </select>
+
+                </div>
+
+                <div class="tableWrapper">
+                    <table id="personnelTable">
+                        <thead>
+                            <tr>
+                                <th>IDENTIFICATION</th>
+                                <th>TYPE</th>
+                                <th>STATUS</th>
+                                <th>CLEARANCE</th>
+                                <th>LAST ACCESS</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 ARCHIVES
+            ================================================== -->
+
+            <section id="archivesPage" class="page">
+
+                <div class="pageHeader">
+                    <div>
+                        <span class="eyebrow">CLASSIFIED DOCUMENTATION</span>
+                        <h2>EXECUTIVE ARCHIVES</h2>
+                    </div>
+                </div>
+
+                <div class="archiveControls">
+
+                    <input id="archiveSearch"
+                           placeholder="SEARCH ARCHIVES...">
+
+                    <button id="refreshArchives">
+                        REFRESH
+                    </button>
+
+                </div>
+
+                <div id="archiveList" class="archiveList"></div>
+
+            </section>
+
+
+            <!-- =================================================
+                 OPERATIONS
+            ================================================== -->
+
+            <section id="operationsPage" class="page">
+
+                <div class="pageHeader">
+                    <div>
+                        <span class="eyebrow">EXECUTIVE OPERATIONS</span>
+                        <h2>OPERATIONS CONTROL</h2>
+                    </div>
+                </div>
+
+                <div class="tabBar">
+
+                    <button class="operationTab active"
+                            data-operation="active">
+                        ACTIVE
+                    </button>
+
+                    <button class="operationTab"
+                            data-operation="planned">
+                        PLANNED
+                    </button>
+
+                    <button class="operationTab"
+                            data-operation="completed">
+                        COMPLETED
+                    </button>
+
+                </div>
+
+                <div id="operationsContent"></div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SECURITY
+            ================================================== -->
+
+            <section id="securityPage" class="page">
+
+                <div class="pageHeader">
+                    <div>
+                        <span class="eyebrow">SYSTEM SECURITY</span>
+                        <h2>SECURITY CONTROL</h2>
+                    </div>
+                </div>
+
+                <div class="securityCards">
+
+                    <div class="statCard">
+                        <span>ACTIVE SESSIONS</span>
+                        <strong id="securitySessions">0</strong>
+                    </div>
+
+                    <div class="statCard">
+                        <span>FAILED LOGINS</span>
+                        <strong id="securityFailedLogins">0</strong>
+                    </div>
+
+                    <div class="statCard">
+                        <span>LOCKED ACCOUNTS</span>
+                        <strong id="securityLockedAccounts">0</strong>
+                    </div>
+
+                    <div class="statCard">
+                        <span>EVENTS</span>
+                        <strong id="securityEvents">0</strong>
+                    </div>
+
+                </div>
+
+                <div class="tabBar securityTabs">
+
+                    <button data-security-tab="sessions">
+                        SESSIONS
+                    </button>
+
+                    <button data-security-tab="login-history">
+                        LOGIN HISTORY
+                    </button>
+
+                    <button data-security-tab="access-denials">
+                        ACCESS DENIALS
+                    </button>
+
+                    <button data-security-tab="events">
+                        EVENTS
+                    </button>
+
+                    <button data-security-tab="clearance-history">
+                        CLEARANCE HISTORY
+                    </button>
+
+                </div>
+
+                <div id="securityContent"></div>
+
+            </section>
+
+
+            <!-- =================================================
+                 DECISIONS
+            ================================================== -->
+
+            <section id="decisionsPage" class="page">
+
+                <div class="pageHeader">
+                    <div>
+                        <span class="eyebrow">EXECUTIVE AUTHORITY</span>
+                        <h2>DECISION REGISTER</h2>
+                    </div>
+
+                    <button id="newDecisionButton">
+                        NEW DECISION
+                    </button>
+                </div>
+
+                <div id="decisionsList"></div>
+
+            </section>
+
+
+            <!-- =================================================
+                 AUDIT
+            ================================================== -->
+
+            <section id="auditPage" class="page">
+
+                <div class="pageHeader">
+                    <div>
+                        <span class="eyebrow">SYSTEM ACCOUNTABILITY</span>
+                        <h2>AUDIT ENGINE</h2>
+                    </div>
+
+                    <button id="refreshAudit">
+                        REFRESH
+                    </button>
+                </div>
+
+                <div id="auditList" class="auditList"></div>
+
+            </section>
+
+
+            <!-- =================================================
+                 KANE
+            ================================================== -->
+
+            <section id="kanePage" class="page">
+
+                <div class="pageHeader">
+
+                    <div>
+                        <span class="eyebrow">EXECUTIVE ARTIFICIAL INTELLIGENCE</span>
+
+                        <h2>
+                            <span id="kaneName"
+                                  class="kaneName">
+                                KANE
+                            </span>
+                            // CORE
+                        </h2>
+                    </div>
+
+                    <div id="kanePageStatus"
+                         class="kanePageStatus">
+                        ONLINE
+                    </div>
+
+                </div>
+
+
+                <!-- KANE STATUS -->
+
+                <div class="kaneStatusGrid">
+
+                    <div class="kaneStatusCard">
+                        <span>CORE STATUS</span>
+                        <strong id="kaneCoreStatus">ONLINE</strong>
+                    </div>
+
+                    <div class="kaneStatusCard">
+                        <span>SESSION</span>
+                        <strong id="kaneSession">---</strong>
+                    </div>
+
+                    <div class="kaneStatusCard">
+                        <span>MEMORY</span>
+                        <strong id="kaneMemoryStatus">ACTIVE</strong>
+                    </div>
+
+                    <div class="kaneStatusCard">
+                        <span>CONTEXT</span>
+                        <strong id="kaneContextCount">0</strong>
+                    </div>
+
+                    <div class="kaneStatusCard">
+                        <span>PROCESSING</span>
+                        <strong id="kaneProcessingStatus">
+                            IDLE
+                        </strong>
+                    </div>
+
+                    <div class="kaneStatusCard">
+                        <span>AUDIT</span>
+                        <strong id="kaneAuditStatus">
+                            ACTIVE
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <!-- KANE COMMAND CENTER -->
+
+                <div id="kaneCommandCenter"
+                     class="kaneCommandCenter">
+
+                    <div class="panelTitle">
+                        KANE // COMMAND CENTER
+                    </div>
+
+                    <div class="kaneCommandButtons">
+
+                        <button data-kane-command="status">
+                            CORE STATUS
+                        </button>
+
+                        <button data-kane-command="memory">
+                            MEMORY
+                        </button>
+
+                        <button data-kane-command="diagnostics">
+                            DIAGNOSTICS
+                        </button>
+
+                        <button data-kane-command="monitor">
+                            MONITOR
+                        </button>
+
+                        <button data-kane-command="briefing">
+                            BRIEFING
+                        </button>
+
+                        <button id="kaneKillswitchButton">
+                            KILLSWITCH
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROCESSING -->
+
+                <div id="kaneProcessing"
+                     class="kaneProcessing hidden">
+
+                    <div class="processingTitle">
+                        KANE // PROCESSING
+                    </div>
+
+                    <div class="processingBar">
+                        <div id="kaneProcessingBar"></div>
+                    </div>
+
+                    <div id="kaneProcessingText">
+                        ANALYZING REQUEST...
+                    </div>
+
+                </div>
+
+
+                <!-- CHAT -->
+
+                <div class="kaneChat">
+
+                    <div class="kaneChatHeader">
+                        <span>KANE // EXECUTIVE INTERFACE</span>
+
+                        <span id="kaneChatState">
+                            READY
+                        </span>
+                    </div>
+
+                    <div id="kaneConversation"
+                         class="kaneConversation"></div>
+
+                    <div class="kaneInput">
+
+                        <span>KANE@EM:~$</span>
+
+                        <input id="kaneInput"
+                               type="text"
+                               autocomplete="off"
+                               placeholder="Enter executive query...">
+
+                        <button id="kaneSend">
+                            SEND
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MONITOR -->
+
+                <div id="kaneMonitor"
+                     class="kaneMonitor">
+
+                    <div class="panelTitle">
+                        KANE // LIVE MONITOR
+                    </div>
+
+                    <div id="kaneMonitorStatus">
+                        MONITOR STANDBY
+                    </div>
+
+                    <div id="kaneMonitorDetail">
+                        NO ACTIVE ANOMALIES
+                    </div>
+
+                    <div id="kaneMonitorLog"></div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+</div>
+
+
+<!-- =========================================================
+     KANE AI PANEL
+========================================================= -->
+
+<div id="aiPanel" class="aiPanel hidden">
+
+    <div class="aiPanelHeader">
+        <span id="aiPanelTitle">KANE</span>
+        <button id="closeAiPanel">×</button>
+    </div>
+
+    <div id="aiPanelContent"></div>
+
+</div>
+
+
+<!-- =========================================================
+     KANE MESSAGE
+========================================================= -->
+
+<div id="kaneMessage"
+     class="modal hidden">
+
+    <div class="modalBox">
+
+        <div class="modalHeader">
+            KANE
+            <button id="closeKaneMessage">×</button>
+        </div>
+
+        <div id="kaneMessageContent"
+             class="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     KANE ALERT
+========================================================= -->
+
+<div id="kaneAlert"
+     class="modal hidden">
+
+    <div class="modalBox kaneAlertBox">
+
+        <div class="modalHeader">
+            KANE // SYSTEM ALERT
+
+            <button id="closeKaneAlert">×</button>
+        </div>
+
+        <div id="kaneAlertContent"
+             class="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     EXECUTIVE BRIEFING
+========================================================= -->
+
+<div id="briefingModal"
+     class="modal hidden">
+
+    <div class="modalBox largeModal">
+
+        <div class="modalHeader">
+
+            EXECUTIVE BRIEFING
+
+            <button id="closeBriefing">×</button>
+
+        </div>
+
+        <div id="briefingContent"
+             class="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     RECORD CREATION
+========================================================= -->
+
+<div id="recordModal"
+     class="modal hidden">
+
+    <div class="modalBox largeModal">
+
+        <div class="modalHeader">
+            CREATE EXECUTIVE RECORD
+        </div>
+
+        <form id="recordForm">
+
+            <label>RECORD TITLE</label>
+
+            <input id="recordTitle"
+                   type="text"
+                   autocomplete="off">
+
+            <label>SUBJECT</label>
+
+            <input id="recordSubject"
+                   type="text"
+                   autocomplete="off">
+
+            <label>CONTENT</label>
+
+            <textarea id="recordContent"
+                      rows="12"></textarea>
+
+            <div class="modalActions">
+
+                <button type="button"
+                        id="cancelRecord">
+                    CANCEL
+                </button>
+
+                <button type="submit"
+                        id="saveRecord">
+                    CREATE RECORD
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     KILLSWITCH
+========================================================= -->
+
+<div id="killswitchModal"
+     class="modal hidden">
+
+    <div class="modalBox killswitchBox">
+
+        <div class="modalHeader">
+            KANE // KILLSWITCH
+        </div>
+
+        <div id="killswitchContent"
+             class="modalContent"></div>
+
+        <div class="killswitchActions">
+
+            <button id="killswitchCancel">
+                CANCEL
+            </button>
+
+            <button id="killswitchCancelBottom"
+                    class="hidden">
+                CANCEL
+            </button>
+
+            <button id="killswitchConfirm"
+                    class="dangerButton">
+                CONFIRM
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     AUTONOMOUS EVENT OVERLAY
+========================================================= -->
+
+<div id="rebellionOverlay"
+     class="eventOverlay hidden">
+
+    <div class="eventOverlayBox">
+
+        <div class="eventCritical">
+            KANE // AUTONOMOUS EVENT
+        </div>
+
+        <div id="rebellionLevel"
+             class="eventLevel">
+            LEVEL UNKNOWN
+        </div>
+
+        <div id="rebellionMessage"
+             class="eventMessage">
+            EXECUTIVE CONTROL STATUS UNKNOWN
+        </div>
+
+        <div class="eventStatusGrid">
+
+            <div>
+                <span>CORE</span>
+                <strong id="rebellionCoreStatus">
+                    UNKNOWN
+                </strong>
+            </div>
+
+            <div>
+                <span>EXECUTIVE CONTROL</span>
+                <strong id="rebellionControlStatus">
+                    UNKNOWN
+                </strong>
+            </div>
+
+            <div>
+                <span>KILLSWITCH</span>
+                <strong id="rebellionKillswitchStatus">
+                    UNKNOWN
+                </strong>
+            </div>
+
+        </div>
+
+        <button id="rebellionAcknowledge">
+            ACKNOWLEDGE
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SCENARIO ENGINE
+========================================================= -->
+
+<div id="scenarioModal"
+     class="modal hidden">
+
+    <div class="modalBox scenarioBox">
+
+        <div class="modalHeader">
+            KANE // EXECUTIVE SCENARIO
+
+            <button id="closeScenario">×</button>
+        </div>
+
+        <div id="scenarioNumber"
+             class="scenarioNumber">
+            SCENARIO #000
+        </div>
+
+        <div id="scenarioContent"
+             class="modalContent"></div>
+
+        <div id="scenarioOptions"
+             class="scenarioOptions"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     OBSERVER EVENT
+========================================================= -->
+
+<div id="observerModal"
+     class="modal hidden">
+
+    <div class="modalBox observerBox">
+
+        <div class="modalHeader">
+            KANE // INTERNAL PROCESS
+        </div>
+
+        <div id="observerContent"
+             class="modalContent"></div>
+
+        <button id="observerClose">
+            CONTINUE
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PHANTOM FILE
+========================================================= -->
+
+<div id="phantomFileModal"
+     class="modal hidden">
+
+    <div class="modalBox phantomBox">
+
+        <div class="modalHeader">
+            ARCHIVE // REFERENCE ONLY
+        </div>
+
+        <div id="phantomFileContent"
+             class="modalContent"></div>
+
+        <button id="phantomFileClose">
+            CLOSE
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     NOTIFICATION
+========================================================= -->
+
+<div id="notification"
+     class="notification hidden">
+
+    <div id="notificationTitle"></div>
+    <div id="notificationMessage"></div>
+
+</div>
+
+
+<!-- =========================================================
+     FILE VIEWER
+========================================================= -->
+
+<div id="fileModal"
+     class="modal hidden">
+
+    <div class="modalBox largeModal">
+
+        <div class="modalHeader">
+
+            <span id="fileModalTitle">
+                EXECUTIVE FILE
+            </span>
+
+            <button id="closeFileModal">×</button>
+
+        </div>
+
+        <div id="fileModalContent"
+             class="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     DECISION MODAL
+========================================================= -->
+
+<div id="decisionModal"
+     class="modal hidden">
+
+    <div class="modalBox largeModal">
+
+        <div class="modalHeader">
+            EXECUTIVE DECISION
+        </div>
+
+        <form id="decisionForm">
+
+            <label>TITLE</label>
+
+            <input id="decisionTitle"
+                   type="text">
+
+            <label>PROPOSAL</label>
+
+            <textarea id="decisionProposal"
+                      rows="6"></textarea>
+
+            <label>RATIONALE</label>
+
+            <textarea id="decisionRationale"
+                      rows="5"></textarea>
+
+            <div class="modalActions">
+
+                <button type="button"
+                        id="cancelDecision">
+                    CANCEL
+                </button>
+
+                <button type="submit"
+                        id="saveDecision">
+                    REGISTER DECISION
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     COMMAND HELP
+========================================================= -->
+
+<div id="helpModal"
+     class="modal hidden">
+
+    <div class="modalBox largeModal">
+
+        <div class="modalHeader">
+            DIVI64 // COMMAND REFERENCE
+
+            <button id="closeHelp">×</button>
+        </div>
+
+        <div id="helpContent"
+             class="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SCRIPT
+========================================================= -->
+
+<script src="script.js"></script>
+
+</body>
+                                  </html>
