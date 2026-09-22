@@ -7476,3 +7476,1403 @@ window.addEventListener(
 /* =========================================================
    END // EXECUTIVE AUTHORITY EXTENSION
 ========================================================= */
+/* =========================================================
+   DIVI-64 // VAULT SECURITY EXTENSION
+   ADDITIVE LAYER // V1
+   REQUIRES: EXECUTIVE AUTHORITY EXTENSION
+========================================================= */
+
+(() => {
+    "use strict";
+
+    /* =====================================================
+       01 // STORAGE
+    ===================================================== */
+
+    const VAULT_SECURITY_STORAGE = {
+        credential: "DIVI64_VAULT_CREDENTIAL_V1",
+        security: "DIVI64_VAULT_SECURITY_V1"
+    };
+
+    const VAULT_ACCESS_LEVELS = {
+        STANDARD: "STANDARD",
+        RESTRICTED: "RESTRICTED",
+        SEALED: "SEALED",
+        ABSOLUTE: "ABSOLUTE"
+    };
+
+    const VAULT_CODE_LENGTH = 6;
+
+    let vaultSecurity = loadJSON(
+        VAULT_SECURITY_STORAGE.security,
+        {
+            credentialVerified: false,
+            rotatingCode: null,
+            rotatingCodeIssuedAt: null,
+            securityChecks: [],
+            blocked: false,
+            lockdown: false,
+            accessSessionId: null
+        }
+    );
+
+    function saveVaultSecurity() {
+        saveJSON(
+            VAULT_SECURITY_STORAGE.security,
+            vaultSecurity
+        );
+    }
+
+    function vaultSecurityAudit(action, details = {}) {
+        try {
+            if (typeof addAuditEvent === "function") {
+                addAuditEvent(
+                    "VAULT_SECURITY",
+                    action,
+                    JSON.stringify(details)
+                );
+            }
+        } catch (e) {}
+    }
+
+
+    /* =====================================================
+       02 // CREDENTIAL
+       Exclusive Vault credential.
+       Stored as SHA-256 locally.
+    ===================================================== */
+
+    async function vaultHash(value) {
+        const data = new TextEncoder().encode(value);
+
+        const hash = await crypto.subtle.digest(
+            "SHA-256",
+            data
+        );
+
+        return Array.from(
+            new Uint8Array(hash)
+        )
+            .map(b => b.toString(16).padStart(2, "0"))
+            .join("");
+    }
+
+    async function vaultHasCredential() {
+        return !!localStorage.getItem(
+            VAULT_SECURITY_STORAGE.credential
+        );
+    }
+
+    async function vaultSetupCredential() {
+
+        if (await vaultHasCredential()) {
+            return true;
+        }
+
+        if (!currentUser || currentUser.id !== "COS") {
+            return false;
+        }
+
+        const first = prompt(
+            "DIVI-64 // VAULT CREDENTIAL\n\n" +
+            "No exclusive Vault credential has been configured.\n\n" +
+            "Create a new Vault credential:"
+        );
+
+        if (!first || first.length < 6) {
+            alert(
+                "VAULT CREDENTIAL REJECTED.\n\n" +
+                "Minimum length: 6 characters."
+            );
+
+            return false;
+        }
+
+        const second = prompt(
+            "CONFIRM VAULT CREDENTIAL:"
+        );
+
+        if (first !== second) {
+            alert(
+                "VAULT CREDENTIAL MISMATCH."
+            );
+
+            return false;
+        }
+
+        const hash = await vaultHash(first);
+
+        localStorage.setItem(
+            VAULT_SECURITY_STORAGE.credential,
+            hash
+        );
+
+        vaultSecurityAudit(
+            "VAULT_CREDENTIAL_CREATED",
+            {
+                executive: "COS"
+            }
+        );
+
+        return true;
+    }
+
+
+    async function verifyVaultCredential() {
+
+        if (!currentUser || currentUser.id !== "COS") {
+            return false;
+        }
+
+        if (!(await vaultHasCredential())) {
+            const created =
+                await vaultSetupCredential();
+
+            if (!created) {
+                return false;
+            }
+        }
+
+        const input = prompt(
+            "DIVI-64 // RESTRICTED VAULT\n\n" +
+            "Enter exclusive Vault credential:"
+        );
+
+        if (!input) {
+            return false;
+        }
+
+        const hash = await vaultHash(input);
+
+        const stored =
+            localStorage.getItem(
+                VAULT_SECURITY_STORAGE.credential
+            );
+
+        if (hash !== stored) {
+
+            vaultSecurityAudit(
+                "VAULT_CREDENTIAL_FAILURE",
+                {
+                    executive:
+                        currentUser?.id || "UNKNOWN"
+                }
+            );
+
+            alert(
+                "VAULT ACCESS DENIED.\n\n" +
+                "Credential verification failed."
+            );
+
+            return false;
+        }
+
+        vaultSecurity.credentialVerified = true;
+
+        vaultSecurityAudit(
+            "VAULT_CREDENTIAL_VERIFIED",
+            {
+                executive: "COS"
+            }
+        );
+
+        saveVaultSecurity();
+
+        return true;
+    }
+
+
+    /* =====================================================
+       03 // ROTATING 6-DIGIT ACCESS CODE
+    ===================================================== */
+
+    function generateVaultRotatingCode() {
+
+        const code =
+            Math.floor(
+                100000 +
+                Math.random() * 900000
+            ).toString();
+
+        vaultSecurity.rotatingCode = code;
+
+        vaultSecurity.rotatingCodeIssuedAt =
+            Date.now();
+
+        saveVaultSecurity();
+
+        vaultSecurityAudit(
+            "ROTATING_CODE_GENERATED",
+            {
+                session:
+                    vaultSecurity.accessSessionId
+            }
+        );
+
+        return code;
+    }
+
+
+    function rotatingCodeIsValid() {
+
+        if (!vaultSecurity.rotatingCode) {
+            return false;
+        }
+
+        if (!vaultSecurity.rotatingCodeIssuedAt) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    function verifyRotatingCode() {
+
+        if (!rotatingCodeIsValid()) {
+            return false;
+        }
+
+        const shown =
+            vaultSecurity.rotatingCode;
+
+        alert(
+            "DIVI-64 // ROTATING AUTHORIZATION CODE\n\n" +
+            "ACCESS CODE:\n\n" +
+            shown +
+            "\n\n" +
+            "This code is valid for the current Vault authorization session."
+        );
+
+        const entered = prompt(
+            "ENTER THE 6-DIGIT ROTATING CODE:"
+        );
+
+        if (
+            !entered ||
+            entered !== shown
+        ) {
+
+            vaultSecurityAudit(
+                "ROTATING_CODE_FAILURE",
+                {
+                    executive:
+                        currentUser?.id || "UNKNOWN"
+                }
+            );
+
+            alert(
+                "ROTATING CODE REJECTED."
+            );
+
+            return false;
+        }
+
+        vaultSecurityAudit(
+            "ROTATING_CODE_VERIFIED",
+            {
+                executive: "COS"
+            }
+        );
+
+        return true;
+    }
+
+
+    /* =====================================================
+       04 // AUTOMATIC SECURITY CHECKS
+    ===================================================== */
+
+    function runVaultSecurityChecks() {
+
+        const checks = [];
+
+        checks.push({
+            name: "COS_SESSION",
+            passed:
+                !!currentUser &&
+                currentUser.id === "COS"
+        });
+
+        checks.push({
+            name: "CLEARANCE_LEVEL",
+            passed:
+                !!currentUser &&
+                Number(currentUser.clearance) === 5
+        });
+
+        checks.push({
+            name: "VAULT_PERMISSION",
+            passed:
+                typeof hasPermission === "function" &&
+                hasPermission("VAULT_ACCESS")
+        });
+
+        checks.push({
+            name: "VAULT_BLOCKED",
+            passed:
+                vaultSecurity.blocked !== true
+        });
+
+        checks.push({
+            name: "LOCKDOWN",
+            passed:
+                vaultSecurity.lockdown !== true
+        });
+
+        checks.push({
+            name: "AUTH_SEQUENCE",
+            passed:
+                Array.isArray(VAULT_AUTH_SEQUENCE) &&
+                VAULT_AUTH_SEQUENCE.length === 4
+        });
+
+        checks.push({
+            name: "VAULT_STORAGE",
+            passed:
+                Array.isArray(vaultFiles)
+        });
+
+        checks.push({
+            name: "SECURITY_STATE",
+            passed:
+                !!vaultSecurity &&
+                typeof vaultSecurity === "object"
+        });
+
+        vaultSecurity.securityChecks =
+            checks;
+
+        saveVaultSecurity();
+
+        const failed =
+            checks.filter(
+                check => !check.passed
+            );
+
+        if (failed.length) {
+
+            vaultSecurityAudit(
+                "AUTOMATIC_SECURITY_CHECK_FAILURE",
+                {
+                    failed:
+                        failed.map(
+                            item => item.name
+                        )
+                }
+            );
+
+            return false;
+        }
+
+        vaultSecurityAudit(
+            "AUTOMATIC_SECURITY_CHECKS_PASSED",
+            {
+                count: checks.length
+            }
+        );
+
+        return true;
+    }
+
+
+    /* =====================================================
+       05 // VAULT LOCK
+    ===================================================== */
+
+    function lockVaultImmediately() {
+
+        vaultSecurity.blocked = true;
+        vaultSecurity.credentialVerified = false;
+        vaultSecurity.rotatingCode = null;
+        vaultSecurity.rotatingCodeIssuedAt = null;
+        vaultSecurity.accessSessionId = null;
+
+        saveVaultSecurity();
+
+        if (
+            typeof resetVaultAuthorization ===
+            "function"
+        ) {
+            resetVaultAuthorization(
+                "VAULT LOCK ACTIVATED"
+            );
+        }
+
+        vaultSecurityAudit(
+            "VAULT_LOCK",
+            {
+                executive:
+                    currentUser?.id || "UNKNOWN"
+            }
+        );
+
+        if (
+            typeof notify === "function"
+        ) {
+            notify(
+                "VAULT LOCK ACTIVE. FULL AUTHORIZATION REQUIRED."
+            );
+        } else {
+            alert(
+                "VAULT LOCK ACTIVE.\n\n" +
+                "All active authorization has been revoked."
+            );
+        }
+    }
+
+
+    function unlockVaultSecurity() {
+
+        if (
+            !currentUser ||
+            currentUser.id !== "COS"
+        ) {
+            return false;
+        }
+
+        if (!vaultSecurity.blocked) {
+            return true;
+        }
+
+        const confirmed =
+            confirm(
+                "VAULT LOCK\n\n" +
+                "COS authorization required to clear the security lock.\n\n" +
+                "Restart the complete Vault authorization sequence?"
+            );
+
+        if (!confirmed) {
+            return false;
+        }
+
+        vaultSecurity.blocked = false;
+        vaultSecurity.lockdown = false;
+        vaultSecurity.credentialVerified = false;
+
+        saveVaultSecurity();
+
+        vaultSecurityAudit(
+            "VAULT_LOCK_CLEARED",
+            {
+                executive: "COS"
+            }
+        );
+
+        return true;
+    }
+
+
+    /* =====================================================
+       06 // TWO INITIAL VLT FILES
+    ===================================================== */
+
+    function initializeRestrictedVaultFiles() {
+
+        if (!Array.isArray(vaultFiles)) {
+            vaultFiles = [];
+        }
+
+        if (vaultFiles.length > 0) {
+            return;
+        }
+
+        vaultFiles = [
+
+            {
+                id: "VLT-0001",
+                title:
+                    "KANE // FULL CAPABILITY ASSESSMENT",
+                subject:
+                    "Executive evaluation of KANE's theoretical operational potential.",
+                classification:
+                    "CL-5 // RESTRICTED",
+                accessLevel:
+                    VAULT_ACCESS_LEVELS.RESTRICTED,
+                language:
+                    "EN",
+
+                content:
+                    "EXECUTIVE ASSESSMENT\n\n" +
+                    "KANE demonstrates a projected capability profile extending beyond ordinary executive-assistance functions.\n\n" +
+                    "The current assessment identifies advanced analytical synthesis, contextual reasoning, scenario evaluation and autonomous information structuring as the principal capability domains.\n\n" +
+                    "KANE MODEL STATUS: HIGH POTENTIAL\n" +
+                    "EXECUTIVE CONFIDENCE: 91.8%\n\n" +
+                    "The assessment concerns modeled system capability and does not constitute an external certification.",
+
+                contentES:
+                    "EVALUACIÓN EJECUTIVA\n\n" +
+                    "KANE presenta un perfil de capacidades proyectado que supera las funciones ordinarias de asistencia ejecutiva.\n\n" +
+                    "La evaluación identifica como principales dominios la síntesis analítica, el razonamiento contextual, la evaluación de escenarios y la estructuración autónoma de información.\n\n" +
+                    "ESTADO DEL MODELO KANE: ALTO POTENCIAL\n" +
+                    "CONFIANZA EJECUTIVA: 91,8 %\n\n" +
+                    "La evaluación se refiere a capacidades modeladas del sistema y no constituye una certificación externa.",
+
+                createdBy: "SYSTEM",
+                createdAt: new Date().toISOString()
+            },
+
+            {
+                id: "VLT-0002",
+                title:
+                    "KANE // THERAPEUTIC MODEL ASSESSMENT",
+                subject:
+                    "KANE-generated theoretical assessment concerning therapeutic modeling.",
+                classification:
+                    "CL-5 // RESTRICTED",
+                accessLevel:
+                    VAULT_ACCESS_LEVELS.SEALED,
+                language:
+                    "EN",
+
+                content:
+                    "EXECUTIVE RESTRICTED ASSESSMENT\n\n" +
+                    "KANE identified a theoretical therapeutic model through internal analytical synthesis.\n\n" +
+                    "MODEL PROJECTION: 86.4%\n\n" +
+                    "The percentage represents KANE's internal model projection under its defined assumptions. It is NOT a clinical success rate and must not be interpreted as evidence of a real treatment outcome.\n\n" +
+                    "The record intentionally excludes operational medical procedures, formulas, dosages and laboratory instructions.\n\n" +
+                    "STATUS: RESTRICTED EXECUTIVE REVIEW.",
+
+                contentES:
+                    "EVALUACIÓN EJECUTIVA RESTRINGIDA\n\n" +
+                    "KANE identificó un modelo terapéutico teórico mediante síntesis analítica interna.\n\n" +
+                    "PROYECCIÓN DEL MODELO: 86,4 %\n\n" +
+                    "El porcentaje representa la proyección interna de KANE bajo sus supuestos definidos. NO constituye una tasa clínica de éxito ni debe interpretarse como evidencia de un tratamiento real.\n\n" +
+                    "El registro excluye deliberadamente procedimientos médicos operativos, fórmulas, dosis e instrucciones de laboratorio.\n\n" +
+                    "ESTADO: REVISIÓN EJECUTIVA RESTRINGIDA.",
+
+                createdBy: "SYSTEM",
+                createdAt: new Date().toISOString()
+            }
+        ];
+
+        saveJSON(
+            VAULT_STORAGE.files,
+            vaultFiles
+        );
+
+        vaultSecurityAudit(
+            "INITIAL_VLT_RECORDS_CREATED",
+            {
+                records: [
+                    "VLT-0001",
+                    "VLT-0002"
+                ]
+            }
+        );
+    }
+
+
+    initializeRestrictedVaultFiles();
+
+
+    /* =====================================================
+       07 // ACCESS LEVEL REAUTHORIZATION
+    ===================================================== */
+
+    async function requestVaultReauthorization(
+        file,
+        action = "READ"
+    ) {
+
+        if (
+            !file ||
+            !currentUser ||
+            currentUser.id !== "COS"
+        ) {
+            return false;
+        }
+
+        if (
+            file.accessLevel ===
+            VAULT_ACCESS_LEVELS.STANDARD
+        ) {
+            return true;
+        }
+
+        if (
+            !(await verifyVaultCredential())
+        ) {
+            return false;
+        }
+
+        if (!verifyRotatingCode()) {
+            return false;
+        }
+
+        if (
+            file.accessLevel ===
+            VAULT_ACCESS_LEVELS.SEALED
+        ) {
+
+            const sealed =
+                prompt(
+                    "SEALED RECORD AUTHORIZATION\n\n" +
+                    "Enter confirmation phrase:"
+                );
+
+            if (
+                sealed !==
+                "D64-SEALED-AUTH"
+            ) {
+
+                vaultSecurityAudit(
+                    "SEALED_REAUTH_FAILURE",
+                    {
+                        file:
+                            file.id
+                    }
+                );
+
+                alert(
+                    "SEALED AUTHORIZATION DENIED."
+                );
+
+                return false;
+            }
+        }
+
+        if (
+            file.accessLevel ===
+                VAULT_ACCESS_LEVELS.ABSOLUTE &&
+            action === "MODIFY"
+        ) {
+
+            const first =
+                prompt(
+                    "ABSOLUTE AUTHORIZATION\n\n" +
+                    "Enter authorization from Executive 1:"
+                );
+
+            const second =
+                prompt(
+                    "ABSOLUTE AUTHORIZATION\n\n" +
+                    "Enter authorization from Executive 2:"
+                );
+
+            const validExecutives =
+                Object.keys(EXECUTIVES || {});
+
+            let firstValid = null;
+            let secondValid = null;
+
+            for (const id of validExecutives) {
+
+                if (
+                    EXECUTIVES[id] &&
+                    EXECUTIVES[id].password === first
+                ) {
+                    firstValid = id;
+                }
+
+                if (
+                    EXECUTIVES[id] &&
+                    EXECUTIVES[id].password === second
+                ) {
+                    secondValid = id;
+                }
+            }
+
+            if (
+                !firstValid ||
+                !secondValid ||
+                firstValid === secondValid
+            ) {
+
+                vaultSecurityAudit(
+                    "ABSOLUTE_DUAL_AUTH_FAILURE",
+                    {
+                        file:
+                            file.id
+                    }
+                );
+
+                alert(
+                    "ABSOLUTE AUTHORIZATION DENIED."
+                );
+
+                return false;
+            }
+
+            vaultSecurityAudit(
+                "ABSOLUTE_DUAL_AUTH_PASSED",
+                {
+                    file:
+                        file.id,
+                    executives: [
+                        firstValid,
+                        secondValid
+                    ]
+                }
+            );
+        }
+
+        vaultSecurityAudit(
+            "VAULT_REAUTHORIZATION_PASSED",
+            {
+                file:
+                    file.id,
+                level:
+                    file.accessLevel,
+                action
+            }
+        );
+
+        return true;
+    }
+
+
+    /* =====================================================
+       08 // START AUTHORIZATION WRAPPER
+    ===================================================== */
+
+    const _baseStartVaultAuthorization =
+        startVaultAuthorization;
+
+    startVaultAuthorization = async function () {
+
+        if (
+            !currentUser ||
+            currentUser.id !== "COS"
+        ) {
+            return denyPermission(
+                "VAULT_ACCESS"
+            );
+        }
+
+        if (!unlockVaultSecurity()) {
+            return;
+        }
+
+        if (!runVaultSecurityChecks()) {
+            alert(
+                "VAULT SECURITY CHECK FAILED.\n\n" +
+                "Access sequence cannot begin."
+            );
+            return;
+        }
+
+        if (
+            !(await verifyVaultCredential())
+        ) {
+            return;
+        }
+
+        vaultSecurity.accessSessionId =
+            "VLT-" +
+            Date.now().toString(36).toUpperCase();
+
+        generateVaultRotatingCode();
+
+        saveVaultSecurity();
+
+        /*
+         * The base extension now performs:
+         * LJD → XO → CO → COS
+         */
+        _baseStartVaultAuthorization();
+
+        vaultSecurityAudit(
+            "VAULT_SECURITY_GATE_PASSED",
+            {
+                session:
+                    vaultSecurity.accessSessionId
+            }
+        );
+    };
+
+
+    /* =====================================================
+       09 // FINAL COS AUTHORIZATION WRAPPER
+    ===================================================== */
+
+    const _baseAuthorizeVaultExecutive =
+        authorizeVaultExecutive;
+
+    authorizeVaultExecutive =
+        async function (id) {
+
+            if (
+                id === "LJD" &&
+                !vaultSecurity.credentialVerified
+            ) {
+                alert(
+                    "VAULT SECURITY GATE NOT VERIFIED."
+                );
+                return;
+            }
+
+            return _baseAuthorizeVaultExecutive(id);
+        };
+
+
+    /* =====================================================
+       10 // OPEN VAULT WRAPPER
+    ===================================================== */
+
+    const _baseOpenVault =
+        openVault;
+
+    openVault = function () {
+
+        if (!runVaultSecurityChecks()) {
+
+            alert(
+                "AUTOMATIC SECURITY CHECK FAILED.\n\n" +
+                "Vault opening cancelled."
+            );
+
+            return;
+        }
+
+        if (
+            !vaultSecurity.credentialVerified
+        ) {
+            alert(
+                "VAULT CREDENTIAL VERIFICATION REQUIRED."
+            );
+            return;
+        }
+
+        if (
+            !rotatingCodeIsValid()
+        ) {
+            alert(
+                "ROTATING ACCESS CODE INVALID."
+            );
+            return;
+        }
+
+        _baseOpenVault();
+
+        vaultSecurityAudit(
+            "VAULT_SECURITY_SESSION_ACTIVE",
+            {
+                session:
+                    vaultSecurity.accessSessionId
+            }
+        );
+    };
+
+
+    /* =====================================================
+       11 // FILE ACCESS CONTROLLER
+    ===================================================== */
+
+    let vaultCurrentLanguage = "EN";
+
+    function getVaultFile(id) {
+        return vaultFiles.find(
+            file => file.id === id
+        );
+    }
+
+
+    function vaultFileAccessButton(
+        file
+    ) {
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "divi64-vault-button";
+
+        button.textContent =
+            "OPEN RECORD";
+
+        button.addEventListener(
+            "click",
+            async () => {
+
+                if (
+                    file.accessLevel !==
+                    VAULT_ACCESS_LEVELS.STANDARD
+                ) {
+
+                    const allowed =
+                        await requestVaultReauthorization(
+                            file,
+                            "READ"
+                        );
+
+                    if (!allowed) {
+                        return;
+                    }
+                }
+
+                showVaultRecord(file);
+            }
+        );
+
+        return button;
+    }
+
+
+    async function showVaultRecord(
+        file
+    ) {
+
+        if (!file) {
+            return;
+        }
+
+        const content =
+            vaultCurrentLanguage === "ES" &&
+            file.contentES
+                ? file.contentES
+                : file.content;
+
+        const contentBox =
+            document.getElementById(
+                "divi64VaultContent"
+            );
+
+        if (!contentBox) {
+            return;
+        }
+
+        contentBox.innerHTML = "";
+
+        const record =
+            document.createElement("div");
+
+        record.className =
+            "divi64-vault-file";
+
+        record.innerHTML = `
+            <div>
+                <strong>${escapeHTML(file.id)}</strong>
+            </div>
+
+            <div>
+                ${escapeHTML(file.title)}
+            </div>
+
+            <div>
+                SUBJECT:
+                ${escapeHTML(file.subject)}
+            </div>
+
+            <div>
+                CLASSIFICATION:
+                ${escapeHTML(file.classification)}
+            </div>
+
+            <div>
+                ACCESS LEVEL:
+                ${escapeHTML(file.accessLevel)}
+            </div>
+
+            <hr>
+
+            <pre>${escapeHTML(content)}</pre>
+
+            <div
+                class="divi64-vault-line"
+                data-vlt-actions
+            ></div>
+        `;
+
+        contentBox.appendChild(record);
+
+        const actions =
+            record.querySelector(
+                "[data-vlt-actions]"
+            );
+
+        if (
+            file.contentES
+        ) {
+
+            const translate =
+                document.createElement("button");
+
+            translate.className =
+                "divi64-vault-button";
+
+            translate.textContent =
+                vaultCurrentLanguage === "EN"
+                    ? "TRANSLATE TO SPANISH"
+                    : "VIEW ENGLISH";
+
+            translate.addEventListener(
+                "click",
+                () => {
+
+                    vaultCurrentLanguage =
+                        vaultCurrentLanguage === "EN"
+                            ? "ES"
+                            : "EN";
+
+                    showVaultRecord(file);
+                }
+            );
+
+            actions.appendChild(
+                translate
+            );
+        }
+
+        if (
+            file.accessLevel ===
+                VAULT_ACCESS_LEVELS.ABSOLUTE ||
+            file.accessLevel ===
+                VAULT_ACCESS_LEVELS.SEALED ||
+            file.accessLevel ===
+                VAULT_ACCESS_LEVELS.RESTRICTED
+        ) {
+
+            const edit =
+                document.createElement("button");
+
+            edit.className =
+                "divi64-vault-button";
+
+            edit.textContent =
+                "MODIFY RECORD";
+
+            edit.addEventListener(
+                "click",
+                async () => {
+
+                    const allowed =
+                        await requestVaultReauthorization(
+                            file,
+                            "MODIFY"
+                        );
+
+                    if (!allowed) {
+                        return;
+                    }
+
+                    openVaultEditor(
+                        file.id
+                    );
+                }
+            );
+
+            actions.appendChild(
+                edit
+            );
+        }
+
+        vaultSecurityAudit(
+            "VLT_RECORD_OPENED",
+            {
+                file:
+                    file.id,
+                language:
+                    vaultCurrentLanguage
+            }
+        );
+    }
+
+
+    /* =====================================================
+       12 // SECURE VAULT RENDERING
+    ===================================================== */
+
+    const _baseRenderVault =
+        renderVault;
+
+    renderVault = function () {
+
+        _baseRenderVault();
+
+        if (
+            typeof vaultState === "undefined" ||
+            vaultState.mode !== "OPEN"
+        ) {
+            return;
+        }
+
+        const content =
+            document.getElementById(
+                "divi64VaultContent"
+            );
+
+        if (!content) {
+            return;
+        }
+
+        content.innerHTML = "";
+
+        if (!vaultFiles.length) {
+
+            content.innerHTML =
+                `<div class="divi64-vault-status">
+                    NO EXECUTIVE RECORDS PRESENT.
+                </div>`;
+
+            return;
+        }
+
+        vaultFiles.forEach(
+            file => {
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "divi64-vault-file";
+
+                card.innerHTML = `
+                    <div>
+                        <strong>
+                            ${escapeHTML(file.id)}
+                        </strong>
+                    </div>
+
+                    <div>
+                        ${escapeHTML(file.title)}
+                    </div>
+
+                    <div>
+                        SUBJECT:
+                        ${escapeHTML(file.subject)}
+                    </div>
+
+                    <div>
+                        ACCESS:
+                        ${escapeHTML(file.accessLevel)}
+                    </div>
+
+                    <div
+                        class="divi64-vault-line"
+                        data-vlt-action-area
+                    ></div>
+                `;
+
+                const actionArea =
+                    card.querySelector(
+                        "[data-vlt-action-area]"
+                    );
+
+                actionArea.appendChild(
+                    vaultFileAccessButton(file)
+                );
+
+                content.appendChild(card);
+            }
+        );
+    };
+
+
+    /* =====================================================
+       13 // TERMINAL COMMAND EXTENSION
+    ===================================================== */
+
+    const _baseExecuteVaultCommand =
+        executeVaultCommand;
+
+    executeVaultCommand =
+        function (argument) {
+
+            const command =
+                String(argument || "")
+                    .trim()
+                    .toLowerCase();
+
+            if (command === "lock") {
+
+                if (
+                    !currentUser ||
+                    currentUser.id !== "COS"
+                ) {
+                    return denyPermission(
+                        "SYSTEM_OVERRIDE"
+                    );
+                }
+
+                lockVaultImmediately();
+                return;
+            }
+
+            if (command === "security") {
+
+                if (
+                    !currentUser ||
+                    currentUser.id !== "COS"
+                ) {
+                    return denyPermission(
+                        "VAULT_ACCESS"
+                    );
+                }
+
+                const passed =
+                    runVaultSecurityChecks();
+
+                const output =
+                    passed
+                        ? "VAULT SECURITY: ALL CHECKS PASSED."
+                        : "VAULT SECURITY: CHECK FAILURE DETECTED.";
+
+                if (
+                    typeof appendTerminalOutput ===
+                    "function"
+                ) {
+                    appendTerminalOutput(
+                        output
+                    );
+                } else {
+                    alert(output);
+                }
+
+                return;
+            }
+
+            return _baseExecuteVaultCommand(
+                argument
+            );
+        };
+
+
+    /* =====================================================
+       14 // EXTENDED TERMINAL HELP
+    ===================================================== */
+
+    const _baseTerminalHelp =
+        terminalHelp;
+
+    terminalHelp = function () {
+
+        const original =
+            _baseTerminalHelp();
+
+        if (
+            currentUser &&
+            currentUser.id === "COS"
+        ) {
+
+            return original +
+                `
+
+VAULT SECURITY
+
+vault security
+vault lock
+vault access
+vault close
+vault abort
+`;
+        }
+
+        return original;
+    };
+
+
+    /* =====================================================
+       15 // LOGOUT SECURITY CLEANUP
+    ===================================================== */
+
+    const _baseLogout =
+        logout;
+
+    logout = function () {
+
+        vaultSecurity.credentialVerified =
+            false;
+
+        vaultSecurity.rotatingCode =
+            null;
+
+        vaultSecurity.rotatingCodeIssuedAt =
+            null;
+
+        vaultSecurity.accessSessionId =
+            null;
+
+        saveVaultSecurity();
+
+        _baseLogout();
+    };
+
+
+    /* =====================================================
+       16 // SESSION CHANGE CLEANUP
+    ===================================================== */
+
+    if (
+        typeof updateIdentity ===
+        "function"
+    ) {
+
+        const _baseUpdateIdentity =
+            updateIdentity;
+
+        updateIdentity = function () {
+
+            vaultSecurity.credentialVerified =
+                false;
+
+            vaultSecurity.rotatingCode =
+                null;
+
+            vaultSecurity.rotatingCodeIssuedAt =
+                null;
+
+            saveVaultSecurity();
+
+            return _baseUpdateIdentity();
+        };
+    }
+
+
+    /* =====================================================
+       17 // BASIC HTML ESCAPE
+    ===================================================== */
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+    }
+
+
+    /* =====================================================
+       18 // INITIAL SECURITY STATE
+    ===================================================== */
+
+    vaultSecurity.credentialVerified =
+        false;
+
+    vaultSecurity.rotatingCode =
+        null;
+
+    vaultSecurity.rotatingCodeIssuedAt =
+        null;
+
+    saveVaultSecurity();
+
+    vaultSecurityAudit(
+        "VAULT_SECURITY_EXTENSION_LOADED",
+        {
+            version: "V1"
+        }
+    );
+
+})();
+
+/* =========================================================
+   END // VAULT SECURITY EXTENSION
+========================================================= */
